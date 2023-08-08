@@ -1,0 +1,475 @@
+<!DOCUMENT>
+<html lang="en">
+<head>
+    <title>Package architecture</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+
+    <style>
+        :root {
+            font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+            line-height: 1.5;
+            font-weight: 400;
+
+            --code-bg: rgb(245, 245, 245);
+            background: var(--code-bg);
+
+            font-synthesis: none;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        .alert {
+            color: red;
+            font-size: 25px;
+            text-align: center;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        .column {
+            float: left;
+            border: #000 2px solid;
+            border-radius: 20px;
+            height: 85vh;
+            margin: 0 .25vw 0;
+        }
+
+        .left {
+            width: 25vw;
+            padding: 10px;
+        }
+
+        .right {
+            padding: 0;
+            width: 73vw;
+        }
+
+        .row:after {
+            display: table;
+            clear: both;
+        }
+
+        #lab-input {
+            display: block;
+            text-align: center;
+            vertical-align: center;
+            margin-top: -10px;
+            font-size: 20pt;
+        }
+
+        @media only screen and (max-width: 1600px) {
+            .left, .right {
+                width: 95vw;
+            }
+
+            .right {
+                height: 73vh;
+                margin-top: 1vh;
+            }
+
+            .left {
+                height: 6vh;
+            }
+
+            #input {
+                width: 0;
+            }
+
+            p#diagram-title {
+                transform: translate(-50%, 50%);
+                font-size: 15pt;
+                text-align: center;
+            }
+
+            .header {
+                font-size: 1rem;
+            }
+        }
+
+        .header {
+            font-size: 2rem;
+        }
+
+        .tree-panel {
+            height: 95%;
+            width: 100%;
+            overflow: scroll;
+            float: right;
+        }
+
+        #input::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+
+        .force-overflow {
+            min-height: 100px;
+        }
+
+        #input::-webkit-scrollbar-thumb {
+            background: #7f7f7f;
+            border: 2px #000 solid;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .tree-panel ul {
+            list-style-type: none;
+        }
+
+        .tree-panel .caret,
+        .tree-panel .custom-control-input {
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .tree-panel .collapsed {
+            display: none;
+        }
+
+        .caret {
+            font-style: normal;
+            font-size: 20px;
+            margin-right: 10px;
+        }
+
+        .minimize:before {
+            content: "-";
+            margin-right: 3px;
+        }
+
+        .maximize:before {
+            content: "+";
+        }
+
+        .fixed:before {
+            content: "*";
+            margin-right: 15px;
+        }
+
+        #output {
+            height: 100%;
+            align-content: center;
+            margin: 0;
+        }
+
+        svg#diagram {
+            max-width: none !important;
+            width: 100%;
+            height: 100%;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1rem
+        }
+
+        a {
+            color: #000;
+        }
+
+        a:link {
+            text-decoration: none;
+        }
+
+        a:visited {
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: none;
+        }
+
+        a:active {
+            text-decoration: none;
+        }
+
+        header {
+            font-size: 30px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        #diagram-title {
+            position: absolute;
+            font-size: 20pt;
+            text-align: center;
+            left: 50%;
+            transform: translate(0%, 50%);
+        }
+
+        p.info,
+        ul.info {
+            text-align: left;
+            font-size: 1rem;
+            font-weight: 300;
+        }
+
+        ul.info {
+            list-style-type: decimal;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="header">Package architecture</div>
+</header>
+
+<div id="tree"></div>
+<div class="row">
+    <div class="column left" id="in_col"><label id="lab-input" for="input">Select node</label>
+        <div id="input" class="tree-panel"></div>
+    </div>
+    <div class="column right" id="out_col">
+        <div id="output"></div>
+    </div>
+</div>
+
+<footer>
+    <p style="font-size:16px"><a href="https://www.dkisler.com" target="_blank">dkisler.com</a> © 2023</p>
+</footer>
+
+<script type="module">
+    const nodes = [
+        {
+            id: "superduperdb",
+            name: 'superduperdb',
+            nodes: [
+                {
+                    id: "superduperdb.db",
+                    name: 'db',
+                    nodes: [
+                        {
+                            id: "superduperdb.db.base",
+                            name: 'base',
+                            nodes: [
+                                {
+                                    id: "superduperdb.db.base.download",
+                                    name: 'download',
+                                    nodes: [
+                                        {
+                                            id: "superduperdb.db.base.download.Fetcher",
+                                            name: 'Fetcher',
+                                            nodes: [],
+                                        },
+                                        {
+                                            id: "superduperdb.db.base.download.Downloader",
+                                            name: 'Downloader',
+                                            nodes: [],
+                                        },
+                                    ],
+                                },
+                                {
+                                    id: "superduperdb.db.base.query",
+                                    name: 'query',
+                                    nodes: [
+                                        {
+                                            id: "superduperdb.db.base.query.Select",
+                                            name: 'Select',
+                                            nodes: [],
+                                        },
+                                    ],
+                                },
+                                {
+                                    id: "superduperdb.db.base.data_backend",
+                                    name: 'data_backend',
+                                    nodes: [
+                                        {
+                                            id: "superduperdb.db.base.data_backend.BaseDataBackend",
+                                            name: 'BaseDataBackend',
+                                            nodes: [],
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
+                    ]
+                },
+            ]
+        },
+    ];
+
+    const links = [
+        {
+            start: "superduperdb.db.base.download.Fetcher",
+            end: "superduperdb.db.base.download.Downloader",
+            arrow: "--*",
+            description: "fetcher",
+        },
+        {
+            start: "superduperdb.db.base.download.Fetcher",
+            end: "superduperdb.db.base.download.InMemoryDownloader",
+            arrow: "--*",
+            description: "fetcher",
+        },
+        {
+            start: "superduperdb.db.base.query.Select",
+            end: "superduperdb.db.base.data_backend.BaseDataBackend",
+            arrow: "--*",
+            description: "select_cls",
+        }
+    ];
+
+    function selectLinks(id) {
+        return links.filter(link => link.start.startsWith(id) || link.end.startsWith(id));
+    }
+
+    function convertID(s) {
+        return s.replaceAll(".", "-")
+    }
+
+    function generateDiagram(id) {
+        const l = selectLinks(id);
+
+        let o = "classDiagram\n";
+
+        for (const link of l) {
+            o+= `${convertID(link.start)} ${link.arrow} ${convertID(link.end)}`
+            if (link.description !== undefined && link.description !== "") {
+                o += ` : ${link.description}`
+            }
+            o += "\n"
+        }
+
+        return o
+    }
+
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({
+        theme: "default",
+        dompurifyConfig: {
+            USE_PROFILES: {
+                svg: true,
+            },
+        },
+        startOnLoad: true,
+        htmlLabels: true,
+        c4: {
+            diagramMarginY: 0,
+        }
+    })
+
+    const inputSelectedIdStyle = "font-weight:bold;font-size:18px";
+
+    function generateList(nodes, selected_id) {
+        if (nodes.length === 0) {
+            return ""
+        }
+
+        let o = "<ul>";
+
+        for (const node of nodes) {
+            const checked = node.id === selected_id ? `style=${inputSelectedIdStyle}` : "";
+            const listRow = `<span class="custom-control-input" id="${node.id}" ${checked}>${node.name}</span>`;
+            const dropDownSelection = `<span class="caret minimize"></span>`;
+
+            if (node.nodes !== undefined && node.nodes.length > 0) {
+                o += `<li>${dropDownSelection}${listRow}${generateList(node.nodes, selected_id)}</li>`
+            } else {
+                o += `<li><span class="fixed"></span>${listRow}</li>`
+            }
+        }
+
+        return `${o}</ul>`
+    }
+
+    const id = nodes[0].id;
+    let prevSelectedId = id;
+
+    const inputElements = document.getElementsByClassName("custom-control-input");
+    const carets = document.getElementsByClassName('caret');
+    const out = document.getElementById("output");
+
+    document.addEventListener("DOMContentLoaded", async function () {
+        const el = document.getElementById("input");
+        el.innerHTML = `<div class="force-overflow"><form class="tree" id="intputForm">${generateList(nodes, id)}</form></div>`;
+
+        const {svg} = await mermaid.render("diagram", generateDiagram(id), out);
+        out.innerHTML = svg;
+
+        for (const caret of carets) {
+            caret.addEventListener('click', () => {
+                caret.parentElement.querySelector('ul').classList.toggle('collapsed');
+                caret.classList.toggle('maximize');
+                caret.classList.toggle('minimize');
+            });
+        }
+
+        for (const elInput of inputElements) {
+            elInput.addEventListener("click", async (e) => {
+                const id = e.target.id
+                try {
+                    const shown = generateDiagram(id);
+                    console.log(shown);
+                    const {svg} = await mermaid.render("diagram", shown, out);
+                    out.innerHTML = svg;
+                } catch (err) {
+                    console.error(err.message);
+                }
+
+                resetDefaultStyleInputElement(prevSelectedId);
+                elInput.setAttribute("style", inputSelectedIdStyle);
+                prevSelectedId = id;
+
+                if (isMobileDevice()) {
+                    hideInputPanel();
+                    isClickedSelectorLabel = false;
+                }
+            })
+        }
+
+    });
+
+    function resetDefaultStyleInputElement(id) {
+        for (const el of inputElements) {
+            if (el.id === id) {
+                el.setAttribute("style", "")
+            }
+        }
+    }
+
+    // drop-down input to adopt for mobile devices
+    let isClickedSelectorLabel = false;
+    const selectorLabel = document.getElementById("lab-input");
+    selectorLabel.addEventListener("click", () => {
+        if (isMobileDevice()) {
+            if (isClickedSelectorLabel) {
+                hideInputPanel()
+                isClickedSelectorLabel = false;
+            } else {
+                showInputPanel();
+                isClickedSelectorLabel = true;
+            }
+        }
+    })
+
+    function showInputPanel() {
+        const inputPanel = document.getElementById("in_col");
+        inputPanel.setAttribute("style", "height:70vh");
+        const inputTree = document.getElementById("input");
+        inputTree.setAttribute("style", "width:100%")
+    }
+
+    function hideInputPanel() {
+        const inputPanel = document.getElementById("in_col");
+        inputPanel.setAttribute("style", `height:6vh`);
+        const inputTree = document.getElementById("input");
+        inputTree.setAttribute("style", "width:0")
+    }
+
+    function isMobileDevice() {
+        return window.screen.availWidth <= 1600
+    }
+
+</script>
+
+</body>
+</html>
