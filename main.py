@@ -48,11 +48,42 @@ class Link:
         }
 
 
+class Nodes(List["Node"]):
+    def add(self, other: "Node"):
+        root_found = False
+        for node in self:
+            if node.id == other.root_id():
+                root_found = True
+                node.nodes.add(other)
+                break
+        if not root_found:
+            self.append(other)
+
+
+def test_Nodes_append():
+    tests = [
+        {
+            "given": Nodes([Node("foo", "foo", Nodes([]))]),
+            "input": Node("foo.bar", "foo", Nodes([])),
+            "want": Nodes([Node("foo", "foo", Nodes([Node("foo.bar", "foo", Nodes([]))]))]),
+        },
+        {
+            "given": Nodes([Node("foo", "foo", Nodes([]))]),
+            "input": Node("bar", "bar", Nodes([])),
+            "want": Nodes([Node("foo", "foo", Nodes([])), Node("bar", "bar", Nodes([]))]),
+        },
+    ]
+
+    for test in tests:
+        test["given"].add(test["input"])
+        assert test["given"] == test["want"]
+
+
 @dataclasses.dataclass
 class Node:
     id: str
     name: str
-    nodes: List["Node"]
+    nodes: Nodes
 
     def __eq__(self, other: "Node") -> bool:
         flag = self.id == other.id and self.name == self.name and len(self.nodes) == len(other.nodes)
@@ -65,15 +96,18 @@ class Node:
 
         return True
 
+    def root_id(self) -> str:
+        return self.id.split(".")[0]
+
 
 def new_node(id_str: str) -> Node:
     node_names = id_str.split(".")[-1::-1]
-    node = Node(id_str, node_names[0], [])
+    node = Node(id_str, node_names[0], Nodes([]))
 
     i = 1
     while i < len(node_names):
         node_id = ".".join(node_names[i:][-1::-1])
-        node = Node(node_id, node_names[i], [node])
+        node = Node(node_id, node_names[i], Nodes([node]))
         i += 1
 
     return node
@@ -83,22 +117,33 @@ def test_new_node():
     tests = [
         {
             "input": "superduperdb.container.artifact.Artifact",
-            "want": Node("superduperdb", "superduperdb", [
-                Node("superduperdb.container", "container", [
-                    Node("superduperdb.container.artifact", "artifact", [
-                        Node("superduperdb.container.artifact.Artifact", "Artifact", []),
-                    ]),
-                ])
-            ]),
+            "want": Node("superduperdb", "superduperdb", Nodes([
+                Node("superduperdb.container", "container", Nodes([
+                    Node("superduperdb.container.artifact", "artifact", Nodes([
+                        Node("superduperdb.container.artifact.Artifact", "Artifact", Nodes([])),
+                    ])),
+                ])),
+            ])),
+        },
+        {
+            "input": "superduperdb",
+            "want": Node("superduperdb", "superduperdb", Nodes([])),
+        },
+        {
+            "input": "",
+            "want": Node("", "", Nodes([])),
+        },
+        {
+            "input": "foo.bar.",
+            "want": Node("foo", "foo", Nodes([Node("foo.bar", "bar", Nodes([Node("foo.bar.", "", Nodes([])), ])), ])),
+        },
+        {
+            "input": ".",
+            "want": Node("", "", Nodes([Node(".", "", Nodes([])), ])),
         },
     ]
     for test in tests:
         assert new_node(test["input"]) == test["want"]
-
-
-class Nodes(List[Node]):
-    def add(self, node: Node) -> None:
-        pass
 
 
 class Links(List[Link]):
@@ -118,7 +163,11 @@ class Links(List[Link]):
         return Links(o)
 
     def get_nodes(self) -> Nodes:
-        pass
+        o: Nodes = []  # type: ignore
+        for link in self:
+            o.append(new_node(link.start))
+            o.append(new_node(link.end))
+        return o
 
 
 def test_Links_to_json():
@@ -175,6 +224,7 @@ def main(dsl_puml: List[str]) -> str:
             links.append(Link(line))
 
     links_deduplicated = links.deduplicate()
+    nodes = links_deduplicated.get_nodes()
 
     return ""
 
