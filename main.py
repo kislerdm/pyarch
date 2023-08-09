@@ -54,23 +54,6 @@ class Node:
     name: str
     nodes: List["Node"]
 
-    @staticmethod
-    def from_string_id(id_str: str) -> "Node":
-        o: Node
-
-        node_names = id_str.split(".")
-        parent_node = Node(node_names[0], node_names[0], [])
-        o = parent_node
-
-        for i, node_name in enumerate(node_names[1:]):
-            node_id = f"{parent_node.id}.{node_name}"
-            node = Node(node_id, node_name, [])
-            parent_node.nodes.append(node)
-            o.nodes.append(parent_node)
-            parent_node = node
-
-        return o
-
     def __eq__(self, other: "Node") -> bool:
         flag = self.id == other.id and self.name == self.name and len(self.nodes) == len(other.nodes)
         if not flag:
@@ -83,23 +66,34 @@ class Node:
         return True
 
 
-def test_Node_from_string_id():
+def new_node(id_str: str) -> Node:
+    node_names = id_str.split(".")[-1::-1]
+    node = Node(id_str, node_names[0], [])
+
+    i = 1
+    while i < len(node_names):
+        node_id = ".".join(node_names[i:][-1::-1])
+        node = Node(node_id, node_names[i], [node])
+        i += 1
+
+    return node
+
+
+def test_new_node():
     tests = [
         {
             "input": "superduperdb.container.artifact.Artifact",
             "want": Node("superduperdb", "superduperdb", [
                 Node("superduperdb.container", "container", [
                     Node("superduperdb.container.artifact", "artifact", [
-                        Node("superduperdb.container.artifact", "artifact", [
-                            Node("superduperdb.container.artifact.Artifact", "Artifact", []),
-                        ]),
+                        Node("superduperdb.container.artifact.Artifact", "Artifact", []),
                     ]),
                 ])
             ]),
         },
     ]
     for test in tests:
-        assert Node.from_string_id(test["input"]) == test["want"]
+        assert new_node(test["input"]) == test["want"]
 
 
 class Nodes(List[Node]):
