@@ -130,11 +130,12 @@ class Node:
     def is_root(self) -> bool:
         return self.root_id() == self.name
 
-    def child(self, id: str) -> Optional["Node"]:
+    def child(self, id: str, to_prune: bool = False) -> Optional["Node"]:
         """ Extracts a child as a separate Node.
 
         Args:
             id: Node's child id.
+            to_prune: Flags to cut off the child.
 
         Returns:
             Child Node.
@@ -147,19 +148,37 @@ class Node:
         for child in self.nodes:
             if child.id == id:
                 o = child
+                if to_prune:
+                    self.nodes.remove(o)
                 break
-            o = child.child(id)
+
+            o = child.child(id, to_prune)
             if o is not None:
                 break
 
         return o
+
+    def merge(self, other: "Node") -> None:
+        """ Merges two Nodes.
+
+        Args:
+            other: The Node to merge to the existing.
+
+        Raises:
+            ValueError: raised when nodes have no common roots.
+        """
+        if self.id != other.root_id():
+            raise ValueError("Nodes don't have common roots.")
+
+        for child in other.nodes:
+            pass
 
 
 class Nodes(List["Node"]):
     def add(self, other: "Node"):
         root_found = False
         for node in self:
-            if node.id == other.root_id():
+            if node.parent_id() == other.parent_id() and node.id == other.id:
                 root_found = True
                 for child in other.nodes:
                     node.nodes.add(child)
@@ -583,13 +602,47 @@ def test_Node_child():
     tests = [
         {
             "node": Node("foo", "foo", Nodes([])),
-            "input": "foo",
-            "want": Node("foo", "foo", Nodes([])),
+            "input": {
+                "id": "foo",
+                "to_prune": False,
+            },
+            "want": {
+                "output": Node("foo", "foo", Nodes([])),
+                "source": Node("foo", "foo", Nodes([])),
+            }
+        },
+        {
+            "node": Node("foo", "foo", Nodes([])),
+            "input": {
+                "id": "foo",
+                "to_prune": True,
+            },
+            "want": {
+                "output": Node("foo", "foo", Nodes([])),
+                "source": Node("foo", "foo", Nodes([])),
+            }
         },
         {
             "node": Node("foo", "foo", Nodes([Node("foo.bar", "bar", Nodes([]))])),
-            "input": "foo.bar",
-            "want": Node("foo.bar", "bar", Nodes([])),
+            "input": {
+                "id": "foo.bar",
+                "to_prune": False
+            },
+            "want": {
+                "output": Node("foo.bar", "bar", Nodes([])),
+                "source": Node("foo", "foo", Nodes([Node("foo.bar", "bar", Nodes([]))])),
+            },
+        },
+        {
+            "node": Node("foo", "foo", Nodes([Node("foo.bar", "bar", Nodes([]))])),
+            "input": {
+                "id": "foo.bar",
+                "to_prune": True
+            },
+            "want": {
+                "output": Node("foo.bar", "bar", Nodes([])),
+                "source": Node("foo", "foo", Nodes([])),
+            },
         },
         {
             "node": Node("foo", "foo", Nodes([
@@ -603,19 +656,83 @@ def test_Node_child():
                     ])),
                 ])),
             ])),
-            "input": "foo.bar.baz",
-            "want": Node("foo.bar.baz", "baz", Nodes([
-                Node("foo.bar.baz.quxx", "quxx", Nodes([]))
+            "input": {
+                "id": "foo.bar.baz",
+                "to_prune": False,
+            },
+            "want": {
+                "output": Node("foo.bar.baz", "baz", Nodes([
+                    Node("foo.bar.baz.quxx", "quxx", Nodes([]))
+                ])),
+                "source": Node("foo", "foo", Nodes([
+                    Node("foo.qux", "qux", Nodes([])),
+                    Node("foo.qux1", "qux1", Nodes([
+                        Node("foo.qux1.qux2", "qux2", Nodes([])),
+                    ])),
+                    Node("foo.bar", "bar", Nodes([
+                        Node("foo.bar.baz", "baz", Nodes([
+                            Node("foo.bar.baz.quxx", "quxx", Nodes([]))
+                        ])),
+                    ])),
+                ])),
+            }
+        },
+        {
+            "node": Node("foo", "foo", Nodes([
+                Node("foo.qux", "qux", Nodes([])),
+                Node("foo.qux1", "qux1", Nodes([
+                    Node("foo.qux1.qux2", "qux2", Nodes([])),
+                ])),
+                Node("foo.bar", "bar", Nodes([
+                    Node("foo.bar.baz", "baz", Nodes([
+                        Node("foo.bar.baz.quxx", "quxx", Nodes([]))
+                    ])),
+                ])),
             ])),
+            "input": {
+                "id": "foo.bar.baz",
+                "to_prune": True,
+            },
+            "want": {
+                "output": Node("foo.bar.baz", "baz", Nodes([
+                    Node("foo.bar.baz.quxx", "quxx", Nodes([]))
+                ])),
+                "source": Node("foo", "foo", Nodes([
+                    Node("foo.qux", "qux", Nodes([])),
+                    Node("foo.qux1", "qux1", Nodes([
+                        Node("foo.qux1.qux2", "qux2", Nodes([])),
+                    ])),
+                    Node("foo.bar", "bar", Nodes([])),
+                ])),
+            }
         },
         {
             "node": Node("foo", "foo", Nodes([Node("foo.bar", "bar", Nodes([]))])),
-            "input": "foo.bar.qux",
-            "want": None,
+            "input": {
+                "id": "foo.bar.qux",
+                "to_prune": False,
+            },
+            "want": {
+                "output": None,
+                "source": Node("foo", "foo", Nodes([Node("foo.bar", "bar", Nodes([]))])),
+            }
+        },
+        {
+            "node": Node("foo", "foo", Nodes([Node("foo.bar", "bar", Nodes([]))])),
+            "input": {
+                "id": "foo.bar.qux",
+                "to_prune": True,
+            },
+            "want": {
+                "output": None,
+                "source": Node("foo", "foo", Nodes([Node("foo.bar", "bar", Nodes([]))])),
+            }
         },
     ]
-    for test in tests:
-        assert test["node"].child(test["input"]) == test["want"]
+    for i, test in enumerate(tests):
+        got = test["node"].child(test["input"]["id"], test["input"]["to_prune"])
+        assert got == test["want"]["output"], "test %d: output" % i
+        assert test["node"] == test["want"]["source"], "test %d: pruning" % i
 
 
 def test_Links_to_json():
