@@ -16,7 +16,7 @@ pyreverse -Akmy -o puml .
 import argparse
 import dataclasses
 import json
-from typing import List, Dict
+from typing import List, Dict, Optional
 
 
 class Link:
@@ -127,23 +127,32 @@ class Node:
     def parent_id(self) -> str:
         return Node._SEPARATOR.join(self.id.split(Node._SEPARATOR)[:-1])
 
-    def is_root(self) -> str:
-        pass
+    def is_root(self) -> bool:
+        return self.root_id() == self.name
 
+    def child(self, id: str) -> Optional["Node"]:
+        """ Extracts a child as a separate Node.
 
-def test_Node_parent_id():
-    tests = [
-        {
-            "node": Node("foo", "foo", Nodes([])),
-            "want": "",
-        },
-        {
-            "node": Node("foo.bar.qux", "qux", Nodes([])),
-            "want": "foo.bar",
-        },
-    ]
-    for test in tests:
-        assert test["node"].parent_id() == test["want"]
+        Args:
+            id: Node's child id.
+
+        Returns:
+            Child Node.
+        """
+        if id == self.id:
+            return self
+
+        o: Optional[Node] = None
+
+        for child in self.nodes:
+            if child.id == id:
+                o = child
+                break
+            o = child.child(id)
+            if o is not None:
+                break
+
+        return o
 
 
 class Nodes(List["Node"]):
@@ -512,7 +521,8 @@ def test_Nodes_add():
         },
         {
             "given": Nodes([]),
-            "input": [Node.from_str("superduperdb.data.cache.key_cache"), Node.from_str("superduperdb.base.config.Notebook")],
+            "input": [Node.from_str("superduperdb.data.cache.key_cache"),
+                      Node.from_str("superduperdb.base.config.Notebook")],
             "want": Nodes([
                 Node(id="superduperdb", name="superduperdb",
                      nodes=Nodes([
@@ -552,6 +562,60 @@ def test_Nodes_add():
             test["given"].add(other)
 
         assert test["given"] == test["want"]
+
+
+def test_Node_parent_id():
+    tests = [
+        {
+            "node": Node("foo", "foo", Nodes([])),
+            "want": "",
+        },
+        {
+            "node": Node("foo.bar.qux", "qux", Nodes([])),
+            "want": "foo.bar",
+        },
+    ]
+    for test in tests:
+        assert test["node"].parent_id() == test["want"]
+
+
+def test_Node_child():
+    tests = [
+        {
+            "node": Node("foo", "foo", Nodes([])),
+            "input": "foo",
+            "want": Node("foo", "foo", Nodes([])),
+        },
+        {
+            "node": Node("foo", "foo", Nodes([Node("foo.bar", "bar", Nodes([]))])),
+            "input": "foo.bar",
+            "want": Node("foo.bar", "bar", Nodes([])),
+        },
+        {
+            "node": Node("foo", "foo", Nodes([
+                Node("foo.qux", "qux", Nodes([])),
+                Node("foo.qux1", "qux1", Nodes([
+                    Node("foo.qux1.qux2", "qux2", Nodes([])),
+                ])),
+                Node("foo.bar", "bar", Nodes([
+                    Node("foo.bar.baz", "baz", Nodes([
+                        Node("foo.bar.baz.quxx", "quxx", Nodes([]))
+                    ])),
+                ])),
+            ])),
+            "input": "foo.bar.baz",
+            "want": Node("foo.bar.baz", "baz", Nodes([
+                Node("foo.bar.baz.quxx", "quxx", Nodes([]))
+            ])),
+        },
+        {
+            "node": Node("foo", "foo", Nodes([Node("foo.bar", "bar", Nodes([]))])),
+            "input": "foo.bar.qux",
+            "want": None,
+        },
+    ]
+    for test in tests:
+        assert test["node"].child(test["input"]) == test["want"]
 
 
 def test_Links_to_json():
