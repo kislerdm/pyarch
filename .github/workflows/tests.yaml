@@ -36,7 +36,8 @@ jobs:
           black -l 120 pyarch.py
 
       - name: Unittest with pytest
-        run: pytest -vv pyarch.py
+        run: pytest -vv .
+
       - name: e2e test
         run: |
           python pyarch.py -i fixtures -o fixtures
