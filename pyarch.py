@@ -39,10 +39,10 @@ class Link:
 
     def __eq__(self, other: "Link") -> bool:  # type: ignore
         return (
-            self.start == other.start
-            and self.end == other.end
-            and self.arrow == other.arrow
-            and self.description == other.description
+                self.start == other.start
+                and self.end == other.end
+                and self.arrow == other.arrow
+                and self.description == other.description
         )
 
     def to_dict(self) -> Dict[str, str]:
@@ -397,11 +397,12 @@ pyreverse -Akmy -o puml .
     )
     parser.add_argument("-i", "--input", required=True, type=str, help="Directory with {classes,packages}.puml files.")
     parser.add_argument("-o", "--output", required=True, type=str, help="Directory to output index.html file.")
-    parser.add_argument("-v", "--verbose", required=False, type=bool, default=False, help="Verbosity.")
+    parser.add_argument("-v", "--verbose", required=False, default=False, action="store_true", help="Verbosity.")
     return parser.parse_args()
 
 
-_LOGS = logging.getLogger(__name__)
+logging.basicConfig(format="%(asctime)s [%(levelname)s] %(message)s", level=logging.INFO)
+_LOGS = logging.getLogger("pyarch")
 
 
 def read_input_puml(path: str) -> str:
@@ -417,8 +418,8 @@ def read_input_puml(path: str) -> str:
         FileNotFoundError: raised when the file is not found.
         IOError: raised upon reading error.
     """
-    if not os.path.isfile(path_classes_puml):
-        raise FileNotFoundError(path_classes_puml)
+    if not os.path.isfile(path):
+        raise FileNotFoundError("file %s not found" % path)
 
     try:
         with open(path, "r") as f:
@@ -428,7 +429,6 @@ def read_input_puml(path: str) -> str:
 
 
 if __name__ == "__main__":
-
     args = get_args()
 
     path_classes_puml = f"{args.input}/classes.puml"
