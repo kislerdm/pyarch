@@ -1,0 +1,510 @@
+@startuml classes
+set namespaceSeparator none
+class "abc.ABC" as abc.ABC {
+}
+class "bson.objectid.ObjectId" as bson.objectid.ObjectId {
+}
+class "enum.Enum" as enum.Enum {
+}
+class "superduperdb.base.config.Api" as superduperdb.base.config.Api {
+}
+class "superduperdb.base.config.Apis" as superduperdb.base.config.Apis {
+}
+class "superduperdb.base.config.Config" as superduperdb.base.config.Config {
+}
+class "superduperdb.base.config.Config" as superduperdb.base.config.Config.Config {
+}
+class "superduperdb.base.config.Dask" as superduperdb.base.config.Dask {
+}
+class "superduperdb.base.config.DataLayer" as superduperdb.base.config.DataLayer {
+}
+class "superduperdb.base.config.DataLayers" as superduperdb.base.config.DataLayers {
+}
+class "superduperdb.base.config.Deployment" as superduperdb.base.config.Deployment {
+}
+class "superduperdb.base.config.HasPort" as superduperdb.base.config.HasPort {
+}
+class "superduperdb.base.config.HostPort" as superduperdb.base.config.HostPort {
+}
+class "superduperdb.base.config.InMemory" as superduperdb.base.config.InMemory {
+}
+class "superduperdb.base.config.IpPort" as superduperdb.base.config.IpPort {
+}
+class "superduperdb.base.config.LanceDB" as superduperdb.base.config.LanceDB {
+}
+class "superduperdb.base.config.LogLevel" as superduperdb.base.config.LogLevel {
+}
+class "superduperdb.base.config.LogType" as superduperdb.base.config.LogType {
+}
+class "superduperdb.base.config.Logging" as superduperdb.base.config.Logging {
+}
+class "superduperdb.base.config.ModelServer" as superduperdb.base.config.ModelServer {
+}
+class "superduperdb.base.config.MongoDB" as superduperdb.base.config.MongoDB {
+}
+class "superduperdb.base.config.Notebook" as superduperdb.base.config.Notebook {
+}
+class "superduperdb.base.config.Retry" as superduperdb.base.config.Retry {
+}
+class "superduperdb.base.config.Server" as superduperdb.base.config.Server {
+}
+class "superduperdb.base.config.VectorSearch" as superduperdb.base.config.VectorSearch {
+}
+class "superduperdb.base.configs.ConfigSettings" as superduperdb.base.configs.ConfigSettings {
+}
+class "superduperdb.base.jsonable.Config" as superduperdb.base.jsonable.JSONable.Config {
+}
+class "superduperdb.base.jsonable.JSONable" as superduperdb.base.jsonable.JSONable {
+}
+class "superduperdb.base.logger.logging" as superduperdb.base.logger.logging {
+}
+class "superduperdb.container.artifact.Artifact" as superduperdb.container.artifact.Artifact {
+}
+class "superduperdb.container.artifact.ArtifactDesc" as superduperdb.container.artifact.ArtifactDesc {
+}
+class "<color:red>superduperdb.container.artifact.ArtifactSavingError</color>" as superduperdb.container.artifact.ArtifactSavingError {
+}
+class "superduperdb.container.component.Component" as superduperdb.container.component.Component {
+}
+class "superduperdb.container.dataset.Dataset" as superduperdb.container.dataset.Dataset {
+}
+class "superduperdb.container.document.Document" as superduperdb.container.document.Document {
+}
+class "superduperdb.container.encoder.Encodable" as superduperdb.container.encoder.Encodable {
+}
+class "superduperdb.container.encoder.Encoder" as superduperdb.container.encoder.Encoder {
+}
+class "superduperdb.container.job.ComponentJob" as superduperdb.container.job.ComponentJob {
+}
+class "superduperdb.container.job.FunctionJob" as superduperdb.container.job.FunctionJob {
+}
+class "superduperdb.container.job.Job" as superduperdb.container.job.Job {
+}
+class "superduperdb.container.listener.Listener" as superduperdb.container.listener.Listener {
+}
+class "superduperdb.container.metric.Metric" as superduperdb.container.metric.Metric {
+}
+class "superduperdb.container.model.Model" as superduperdb.container.model.Model {
+}
+class "superduperdb.container.model.PredictMixin" as superduperdb.container.model.PredictMixin {
+}
+class "superduperdb.container.model._TrainingConfiguration" as superduperdb.container.model._TrainingConfiguration {
+}
+class "superduperdb.container.serializable.Serializable" as superduperdb.container.serializable.Serializable {
+}
+class "superduperdb.container.task_workflow.TaskWorkflow" as superduperdb.container.task_workflow.TaskWorkflow {
+}
+class "superduperdb.container.tasks.Logger" as superduperdb.container.tasks.Logger {
+}
+class "superduperdb.container.vector_index.VectorIndex" as superduperdb.container.vector_index.VectorIndex {
+}
+class "superduperdb.data.cache.key_cache.Cache" as superduperdb.data.cache.key_cache.Cache {
+}
+class "superduperdb.data.cache.key_cache.KeyCache" as superduperdb.data.cache.key_cache.KeyCache {
+}
+class "superduperdb.data.cache.typed_cache.TypedCache" as superduperdb.data.cache.typed_cache.TypedCache {
+}
+class "superduperdb.data.cache.uri_cache.Cached" as superduperdb.data.cache.uri_cache.Cached {
+}
+class "superduperdb.data.cache.uri_cache.URICache" as superduperdb.data.cache.uri_cache.URICache {
+}
+class "superduperdb.db.base.artifact.ArtifactStore" as superduperdb.db.base.artifact.ArtifactStore {
+}
+class "superduperdb.db.base.cdc.DatabaseListenerFactory" as superduperdb.db.base.cdc.DatabaseListenerFactory {
+}
+class "superduperdb.db.base.cursor.SuperDuperCursor" as superduperdb.db.base.cursor.SuperDuperCursor {
+}
+class "superduperdb.db.base.data_backend.BaseDataBackend" as superduperdb.db.base.data_backend.BaseDataBackend {
+}
+class "superduperdb.db.base.db.DB" as superduperdb.db.base.db.DB {
+}
+class "superduperdb.db.base.db.LoadDict" as superduperdb.db.base.db.LoadDict {
+}
+class "superduperdb.db.base.download.BaseDownloader" as superduperdb.db.base.download.BaseDownloader {
+}
+class "superduperdb.db.base.download.Downloader" as superduperdb.db.base.download.Downloader {
+}
+class "superduperdb.db.base.download.Fetcher" as superduperdb.db.base.download.Fetcher {
+}
+class "superduperdb.db.base.download.InMemoryDownloader" as superduperdb.db.base.download.InMemoryDownloader {
+}
+class "<color:red>superduperdb.db.base.download.TimeoutException</color>" as superduperdb.db.base.download.TimeoutException {
+}
+class "<color:red>superduperdb.db.base.exceptions.ComponentInUseError</color>" as superduperdb.db.base.exceptions.ComponentInUseError {
+}
+class "<color:red>superduperdb.db.base.exceptions.ComponentInUseWarning</color>" as superduperdb.db.base.exceptions.ComponentInUseWarning {
+}
+class "superduperdb.db.base.metadata.MetaDataStore" as superduperdb.db.base.metadata.MetaDataStore {
+}
+class "superduperdb.db.base.query.Delete" as superduperdb.db.base.query.Delete {
+}
+class "superduperdb.db.base.query.Insert" as superduperdb.db.base.query.Insert {
+}
+class "superduperdb.db.base.query.Like" as superduperdb.db.base.query.Like {
+}
+class "superduperdb.db.base.query.Select" as superduperdb.db.base.query.Select {
+}
+class "superduperdb.db.base.query.SelectOne" as superduperdb.db.base.query.SelectOne {
+}
+class "superduperdb.db.base.query.Update" as superduperdb.db.base.query.Update {
+}
+class "superduperdb.db.mongodb.artifacts.MongoArtifactStore" as superduperdb.db.mongodb.artifacts.MongoArtifactStore {
+}
+class "superduperdb.db.mongodb.cdc.BaseDatabaseListener" as superduperdb.db.mongodb.cdc.BaseDatabaseListener {
+}
+class "superduperdb.db.mongodb.cdc.CDCHandler" as superduperdb.db.mongodb.cdc.CDCHandler {
+}
+class "superduperdb.db.mongodb.cdc.CDCKeys" as superduperdb.db.mongodb.cdc.CDCKeys {
+}
+class "superduperdb.db.mongodb.cdc.CachedTokens" as superduperdb.db.mongodb.cdc.CachedTokens {
+}
+class "superduperdb.db.mongodb.cdc.DBEvent" as superduperdb.db.mongodb.cdc.DBEvent {
+}
+class "superduperdb.db.mongodb.cdc.MongoChangePipeline" as superduperdb.db.mongodb.cdc.MongoChangePipeline {
+}
+class "superduperdb.db.mongodb.cdc.MongoDatabaseListener" as superduperdb.db.mongodb.cdc.MongoDatabaseListener {
+}
+class "superduperdb.db.mongodb.cdc.MongoEventMixin" as superduperdb.db.mongodb.cdc.MongoEventMixin {
+}
+class "superduperdb.db.mongodb.cdc.ObjectId" as superduperdb.db.mongodb.cdc.ObjectId {
+}
+class "superduperdb.db.mongodb.cdc.Packet" as superduperdb.db.mongodb.cdc.Packet {
+}
+class "superduperdb.db.mongodb.cdc._DatabaseListenerThreadScheduler" as superduperdb.db.mongodb.cdc._DatabaseListenerThreadScheduler {
+}
+class "superduperdb.db.mongodb.data_backend.MongoDataBackend" as superduperdb.db.mongodb.data_backend.MongoDataBackend {
+}
+class "superduperdb.db.mongodb.loading.MongoIterable" as superduperdb.db.mongodb.loading.MongoIterable {
+}
+class "superduperdb.db.mongodb.metadata.MongoMetaDataStore" as superduperdb.db.mongodb.metadata.MongoMetaDataStore {
+}
+class "superduperdb.db.mongodb.query.Aggregate" as superduperdb.db.mongodb.query.Aggregate {
+}
+class "superduperdb.db.mongodb.query.ChangeStream" as superduperdb.db.mongodb.query.ChangeStream {
+}
+class "superduperdb.db.mongodb.query.Collection" as superduperdb.db.mongodb.query.Collection {
+}
+class "superduperdb.db.mongodb.query.Config" as superduperdb.db.mongodb.query.PostLike.Config {
+}
+class "superduperdb.db.mongodb.query.Count" as superduperdb.db.mongodb.query.Count {
+}
+class "superduperdb.db.mongodb.query.CountDocuments" as superduperdb.db.mongodb.query.CountDocuments {
+}
+class "superduperdb.db.mongodb.query.DeleteMany" as superduperdb.db.mongodb.query.DeleteMany {
+}
+class "superduperdb.db.mongodb.query.DeleteOne" as superduperdb.db.mongodb.query.DeleteOne {
+}
+class "superduperdb.db.mongodb.query.Featurize" as superduperdb.db.mongodb.query.Featurize {
+}
+class "superduperdb.db.mongodb.query.FeaturizeOne" as superduperdb.db.mongodb.query.FeaturizeOne {
+}
+class "superduperdb.db.mongodb.query.Find" as superduperdb.db.mongodb.query.Find {
+}
+class "superduperdb.db.mongodb.query.FindOne" as superduperdb.db.mongodb.query.FindOne {
+}
+class "superduperdb.db.mongodb.query.InsertMany" as superduperdb.db.mongodb.query.InsertMany {
+}
+class "superduperdb.db.mongodb.query.Limit" as superduperdb.db.mongodb.query.Limit {
+}
+class "superduperdb.db.mongodb.query.PostLike" as superduperdb.db.mongodb.query.PostLike {
+}
+class "superduperdb.db.mongodb.query.PreLike" as superduperdb.db.mongodb.query.PreLike {
+}
+class "superduperdb.db.mongodb.query.ReplaceOne" as superduperdb.db.mongodb.query.ReplaceOne {
+}
+class "superduperdb.db.mongodb.query.UpdateMany" as superduperdb.db.mongodb.query.UpdateMany {
+}
+class "superduperdb.db.mongodb.query.UpdateOne" as superduperdb.db.mongodb.query.UpdateOne {
+}
+class "superduperdb.db.query_dataset.CachedQueryDataset" as superduperdb.db.query_dataset.CachedQueryDataset {
+}
+class "superduperdb.db.query_dataset.ExpiryCache" as superduperdb.db.query_dataset.ExpiryCache {
+}
+class "superduperdb.db.query_dataset.QueryDataset" as superduperdb.db.query_dataset.QueryDataset {
+}
+class "superduperdb.ext.numpy.array.DecodeArray" as superduperdb.ext.numpy.array.DecodeArray {
+}
+class "superduperdb.ext.numpy.array.EncodeArray" as superduperdb.ext.numpy.array.EncodeArray {
+}
+class "superduperdb.ext.openai.model.OpenAI" as superduperdb.ext.openai.model.OpenAI {
+}
+class "superduperdb.ext.openai.model.OpenAIChatCompletion" as superduperdb.ext.openai.model.OpenAIChatCompletion {
+}
+class "superduperdb.ext.openai.model.OpenAIEmbedding" as superduperdb.ext.openai.model.OpenAIEmbedding {
+}
+class "superduperdb.ext.pillow.image.DecoderPILImage" as superduperdb.ext.pillow.image.DecoderPILImage {
+}
+class "superduperdb.ext.sklearn.model.Estimator" as superduperdb.ext.sklearn.model.Estimator {
+}
+class "superduperdb.ext.sklearn.model.SklearnTrainingConfiguration" as superduperdb.ext.sklearn.model.SklearnTrainingConfiguration {
+}
+class "superduperdb.ext.torch.model.Base" as superduperdb.ext.torch.model.Base {
+}
+class "superduperdb.ext.torch.model.BasicDataset" as superduperdb.ext.torch.model.BasicDataset {
+}
+class "superduperdb.ext.torch.model.TorchModel" as superduperdb.ext.torch.model.TorchModel {
+}
+class "superduperdb.ext.torch.model.TorchTrainerConfiguration" as superduperdb.ext.torch.model.TorchTrainerConfiguration {
+}
+class "superduperdb.ext.torch.tensor.DecodeTensor" as superduperdb.ext.torch.tensor.DecodeTensor {
+}
+class "superduperdb.ext.torch.tensor.EncodeTensor" as superduperdb.ext.torch.tensor.EncodeTensor {
+}
+class "superduperdb.ext.transformers.model.Pipeline" as superduperdb.ext.transformers.model.Pipeline {
+}
+class "superduperdb.ext.transformers.model.PreprocessFunction" as superduperdb.ext.transformers.model.PreprocessFunction {
+}
+class "superduperdb.ext.transformers.model.TrainerWithSaving" as superduperdb.ext.transformers.model.TrainerWithSaving {
+}
+class "superduperdb.misc.retry.Retry" as superduperdb.misc.retry.Retry {
+}
+class "superduperdb.misc.serialization.DillSerializer" as superduperdb.misc.serialization.DillSerializer {
+}
+class "superduperdb.misc.serialization.ModuleClassDict" as superduperdb.misc.serialization.ModuleClassDict {
+}
+class "superduperdb.misc.serialization.PickleSerializer" as superduperdb.misc.serialization.PickleSerializer {
+}
+class "superduperdb.misc.serialization.Serializer" as superduperdb.misc.serialization.Serializer {
+}
+class "superduperdb.misc.serialization.TorchSerializer" as superduperdb.misc.serialization.TorchSerializer {
+}
+class "superduperdb.misc.special_dicts.MongoStyleDict" as superduperdb.misc.special_dicts.MongoStyleDict {
+}
+class "superduperdb.misc.superduper.DuckTyper" as superduperdb.misc.superduper.DuckTyper {
+}
+class "superduperdb.misc.superduper.MongoDbTyper" as superduperdb.misc.superduper.MongoDbTyper {
+}
+class "superduperdb.misc.superduper.SklearnTyper" as superduperdb.misc.superduper.SklearnTyper {
+}
+class "superduperdb.misc.superduper.TorchTyper" as superduperdb.misc.superduper.TorchTyper {
+}
+class "superduperdb.server.client.Client" as superduperdb.server.client.Client {
+}
+class "superduperdb.server.client.ClientArtifactStore" as superduperdb.server.client.ClientArtifactStore {
+}
+class "superduperdb.server.client.LoadDict" as superduperdb.server.client.LoadDict {
+}
+class "<color:red>superduperdb.server.client.ServerSideException</color>" as superduperdb.server.client.ServerSideException {
+}
+class "superduperdb.server.dask_client.DaskClient" as superduperdb.server.dask_client.DaskClient {
+}
+class "superduperdb.vector_search.base.BaseVectorIndex" as superduperdb.vector_search.base.BaseVectorIndex {
+}
+class "superduperdb.vector_search.base.VectorCollection" as superduperdb.vector_search.base.VectorCollection {
+}
+class "superduperdb.vector_search.base.VectorCollectionConfig" as superduperdb.vector_search.base.VectorCollectionConfig {
+}
+class "superduperdb.vector_search.base.VectorCollectionItem" as superduperdb.vector_search.base.VectorCollectionItem {
+}
+class "<color:red>superduperdb.vector_search.base.VectorCollectionItemNotFound</color>" as superduperdb.vector_search.base.VectorCollectionItemNotFound {
+}
+class "superduperdb.vector_search.base.VectorCollectionResult" as superduperdb.vector_search.base.VectorCollectionResult {
+}
+class "superduperdb.vector_search.base.VectorDatabase" as superduperdb.vector_search.base.VectorDatabase {
+}
+class "superduperdb.vector_search.faiss_index.FaissVectorIndex" as superduperdb.vector_search.faiss_index.FaissVectorIndex {
+}
+class "superduperdb.vector_search.inmemory.InMemoryVectorCollection" as superduperdb.vector_search.inmemory.InMemoryVectorCollection {
+}
+class "superduperdb.vector_search.inmemory.InMemoryVectorDatabase" as superduperdb.vector_search.inmemory.InMemoryVectorDatabase {
+}
+class "superduperdb.vector_search.lancedb_client.LanceDBClient" as superduperdb.vector_search.lancedb_client.LanceDBClient {
+}
+class "superduperdb.vector_search.lancedb_client.LanceTable" as superduperdb.vector_search.lancedb_client.LanceTable {
+}
+class "superduperdb.vector_search.lancedb_client.LanceVectorIndex" as superduperdb.vector_search.lancedb_client.LanceVectorIndex {
+}
+class "superduperdb.vector_search.table_scan.VanillaVectorIndex" as superduperdb.vector_search.table_scan.VanillaVectorIndex {
+}
+class "threading.Thread" as threading.Thread {
+}
+class "torch.utils.data.dataset.Dataset" as torch.utils.data.dataset.Dataset {
+}
+class "torch.utils.data.dataset.IterableDataset" as torch.utils.data.dataset.IterableDataset {
+}
+class "typing.Generic" as typing.Generic {
+}
+class "typing.TypedDict" as typing.TypedDict {
+}
+class "typing_extensions.TypedDict" as typing_extensions.TypedDict {
+}
+class "typing_extensions.TypedDict" as typing_extensions.TypedDict {
+}
+superduperdb.base.config.Api --|> superduperdb.base.jsonable.JSONable
+superduperdb.base.config.Apis --|> superduperdb.base.jsonable.JSONable
+superduperdb.base.config.Config --|> superduperdb.base.jsonable.JSONable
+superduperdb.base.config.Config.Config --|> superduperdb.base.jsonable.JSONable.Config
+superduperdb.base.config.Dask --|> superduperdb.base.config.IpPort
+superduperdb.base.config.DataLayer --|> superduperdb.base.jsonable.JSONable
+superduperdb.base.config.DataLayers --|> superduperdb.base.jsonable.JSONable
+superduperdb.base.config.Deployment --|> superduperdb.base.jsonable.JSONable
+superduperdb.base.config.HasPort --|> superduperdb.base.jsonable.JSONable
+superduperdb.base.config.HostPort --|> superduperdb.base.config.HasPort
+superduperdb.base.config.InMemory --|> superduperdb.base.jsonable.JSONable
+superduperdb.base.config.IpPort --|> superduperdb.base.config.HasPort
+superduperdb.base.config.LanceDB --|> superduperdb.base.jsonable.JSONable
+superduperdb.base.config.LogLevel --|> enum.Enum
+superduperdb.base.config.LogType --|> enum.Enum
+superduperdb.base.config.Logging --|> superduperdb.base.jsonable.JSONable
+superduperdb.base.config.ModelServer --|> superduperdb.base.config.HostPort
+superduperdb.base.config.MongoDB --|> superduperdb.base.config.HostPort
+superduperdb.base.config.Notebook --|> superduperdb.base.jsonable.JSONable
+superduperdb.base.config.Retry --|> superduperdb.base.jsonable.JSONable
+superduperdb.base.config.Server --|> superduperdb.base.jsonable.JSONable
+superduperdb.base.config.VectorSearch --|> superduperdb.base.jsonable.JSONable
+superduperdb.container.artifact.ArtifactDesc --|> typing.TypedDict
+superduperdb.container.component.Component --|> superduperdb.container.serializable.Serializable
+superduperdb.container.dataset.Dataset --|> superduperdb.container.component.Component
+superduperdb.container.encoder.Encoder --|> superduperdb.container.component.Component
+superduperdb.container.job.ComponentJob --|> superduperdb.container.job.Job
+superduperdb.container.job.FunctionJob --|> superduperdb.container.job.Job
+superduperdb.container.listener.Listener --|> superduperdb.container.component.Component
+superduperdb.container.metric.Metric --|> superduperdb.container.component.Component
+superduperdb.container.model.Model --|> superduperdb.container.component.Component
+superduperdb.container.model.Model --|> superduperdb.container.model.PredictMixin
+superduperdb.container.model._TrainingConfiguration --|> superduperdb.container.component.Component
+superduperdb.container.vector_index.VectorIndex --|> superduperdb.container.component.Component
+superduperdb.data.cache.key_cache.Cache --|> abc.ABC
+superduperdb.data.cache.key_cache.KeyCache --|> superduperdb.data.cache.key_cache.Cache
+superduperdb.data.cache.key_cache.KeyCache --|> typing.Generic
+superduperdb.data.cache.uri_cache.Cached --|> typing.Generic
+superduperdb.data.cache.uri_cache.URICache --|> superduperdb.data.cache.typed_cache.TypedCache
+superduperdb.db.base.artifact.ArtifactStore --|> abc.ABC
+superduperdb.db.base.cdc.DatabaseListenerFactory --|> typing.Generic
+superduperdb.db.base.data_backend.BaseDataBackend --|> abc.ABC
+superduperdb.db.base.download.Downloader --|> superduperdb.db.base.download.BaseDownloader
+superduperdb.db.base.download.InMemoryDownloader --|> superduperdb.db.base.download.BaseDownloader
+superduperdb.db.base.metadata.MetaDataStore --|> abc.ABC
+superduperdb.db.base.query.Delete --|> abc.ABC
+superduperdb.db.base.query.Delete --|> superduperdb.container.serializable.Serializable
+superduperdb.db.base.query.Insert --|> abc.ABC
+superduperdb.db.base.query.Insert --|> superduperdb.container.serializable.Serializable
+superduperdb.db.base.query.Like --|> abc.ABC
+superduperdb.db.base.query.Like --|> superduperdb.container.serializable.Serializable
+superduperdb.db.base.query.Select --|> abc.ABC
+superduperdb.db.base.query.Select --|> superduperdb.container.serializable.Serializable
+superduperdb.db.base.query.SelectOne --|> abc.ABC
+superduperdb.db.base.query.SelectOne --|> superduperdb.container.serializable.Serializable
+superduperdb.db.base.query.Update --|> abc.ABC
+superduperdb.db.base.query.Update --|> superduperdb.container.serializable.Serializable
+superduperdb.db.mongodb.artifacts.MongoArtifactStore --|> superduperdb.db.base.artifact.ArtifactStore
+superduperdb.db.mongodb.cdc.BaseDatabaseListener --|> abc.ABC
+superduperdb.db.mongodb.cdc.CDCHandler --|> threading.Thread
+superduperdb.db.mongodb.cdc.CDCKeys --|> enum.Enum
+superduperdb.db.mongodb.cdc.DBEvent --|> enum.Enum
+superduperdb.db.mongodb.cdc.MongoDatabaseListener --|> superduperdb.db.mongodb.cdc.BaseDatabaseListener
+superduperdb.db.mongodb.cdc.MongoDatabaseListener --|> superduperdb.db.mongodb.cdc.MongoEventMixin
+superduperdb.db.mongodb.cdc.ObjectId --|> bson.objectid.ObjectId
+superduperdb.db.mongodb.cdc._DatabaseListenerThreadScheduler --|> threading.Thread
+superduperdb.db.mongodb.data_backend.MongoDataBackend --|> superduperdb.db.base.data_backend.BaseDataBackend
+superduperdb.db.mongodb.loading.MongoIterable --|> torch.utils.data.dataset.IterableDataset
+superduperdb.db.mongodb.metadata.MongoMetaDataStore --|> superduperdb.db.base.metadata.MetaDataStore
+superduperdb.db.mongodb.query.Aggregate --|> superduperdb.db.base.query.Select
+superduperdb.db.mongodb.query.Collection --|> superduperdb.container.serializable.Serializable
+superduperdb.db.mongodb.query.Count --|> superduperdb.db.base.query.SelectOne
+superduperdb.db.mongodb.query.CountDocuments --|> superduperdb.db.mongodb.query.Find
+superduperdb.db.mongodb.query.DeleteMany --|> superduperdb.db.base.query.Delete
+superduperdb.db.mongodb.query.DeleteOne --|> superduperdb.db.base.query.Delete
+superduperdb.db.mongodb.query.Featurize --|> superduperdb.db.base.query.Select
+superduperdb.db.mongodb.query.FeaturizeOne --|> superduperdb.db.base.query.SelectOne
+superduperdb.db.mongodb.query.Find --|> superduperdb.db.base.query.Select
+superduperdb.db.mongodb.query.FindOne --|> superduperdb.db.base.query.SelectOne
+superduperdb.db.mongodb.query.InsertMany --|> superduperdb.db.base.query.Insert
+superduperdb.db.mongodb.query.Limit --|> superduperdb.db.base.query.Select
+superduperdb.db.mongodb.query.PostLike --|> superduperdb.db.base.query.Select
+superduperdb.db.mongodb.query.PreLike --|> superduperdb.db.base.query.Like
+superduperdb.db.mongodb.query.ReplaceOne --|> superduperdb.db.base.query.Update
+superduperdb.db.mongodb.query.UpdateMany --|> superduperdb.db.base.query.Update
+superduperdb.db.mongodb.query.UpdateOne --|> superduperdb.db.base.query.Update
+superduperdb.db.query_dataset.CachedQueryDataset --|> torch.utils.data.dataset.Dataset
+superduperdb.db.query_dataset.QueryDataset --|> torch.utils.data.dataset.Dataset
+superduperdb.ext.openai.model.OpenAI --|> superduperdb.container.component.Component
+superduperdb.ext.openai.model.OpenAI --|> superduperdb.container.model.PredictMixin
+superduperdb.ext.openai.model.OpenAIChatCompletion --|> superduperdb.ext.openai.model.OpenAI
+superduperdb.ext.openai.model.OpenAIEmbedding --|> superduperdb.ext.openai.model.OpenAI
+superduperdb.ext.sklearn.model.Estimator --|> superduperdb.container.model.Model
+superduperdb.ext.sklearn.model.SklearnTrainingConfiguration --|> superduperdb.container.model._TrainingConfiguration
+superduperdb.ext.torch.model.BasicDataset --|> torch.utils.data.dataset.Dataset
+superduperdb.ext.torch.model.TorchModel --|> superduperdb.container.model.Model
+superduperdb.ext.torch.model.TorchModel --|> superduperdb.ext.torch.model.Base
+superduperdb.ext.torch.model.TorchTrainerConfiguration --|> superduperdb.container.model._TrainingConfiguration
+superduperdb.ext.transformers.model.Pipeline --|> superduperdb.container.model.Model
+superduperdb.misc.serialization.DillSerializer --|> superduperdb.misc.serialization.Serializer
+superduperdb.misc.serialization.ModuleClassDict --|> typing.TypedDict
+superduperdb.misc.serialization.PickleSerializer --|> superduperdb.misc.serialization.Serializer
+superduperdb.misc.serialization.Serializer --|> abc.ABC
+superduperdb.misc.serialization.TorchSerializer --|> superduperdb.misc.serialization.Serializer
+superduperdb.misc.superduper.MongoDbTyper --|> superduperdb.misc.superduper.DuckTyper
+superduperdb.misc.superduper.SklearnTyper --|> superduperdb.misc.superduper.DuckTyper
+superduperdb.misc.superduper.TorchTyper --|> superduperdb.misc.superduper.DuckTyper
+superduperdb.vector_search.base.VectorCollection --|> abc.ABC
+superduperdb.vector_search.base.VectorDatabase --|> abc.ABC
+superduperdb.vector_search.faiss_index.FaissVectorIndex --|> superduperdb.vector_search.base.BaseVectorIndex
+superduperdb.vector_search.inmemory.InMemoryVectorCollection --|> superduperdb.vector_search.base.VectorCollection
+superduperdb.vector_search.inmemory.InMemoryVectorDatabase --|> superduperdb.vector_search.base.VectorDatabase
+superduperdb.vector_search.lancedb_client.LanceVectorIndex --|> superduperdb.vector_search.base.BaseVectorIndex
+superduperdb.vector_search.table_scan.VanillaVectorIndex --|> superduperdb.vector_search.base.BaseVectorIndex
+torch.utils.data.dataset.Dataset --|> typing.Generic
+torch.utils.data.dataset.IterableDataset --|> torch.utils.data.dataset.Dataset
+superduperdb.base.config.Apis --* superduperdb.base.config.Config : apis
+superduperdb.base.config.Dask --* superduperdb.base.config.Config : dask
+superduperdb.base.config.DataLayer --* superduperdb.base.config.DataLayers : artifact
+superduperdb.base.config.DataLayer --* superduperdb.base.config.DataLayers : data_backend
+superduperdb.base.config.DataLayer --* superduperdb.base.config.DataLayers : metadata
+superduperdb.base.config.DataLayers --* superduperdb.base.config.Config : data_layers
+superduperdb.base.config.LogLevel --* superduperdb.base.config.Logging : level
+superduperdb.base.config.LogType --* superduperdb.base.config.Logging : type
+superduperdb.base.config.Logging --* superduperdb.base.config.Config : logging
+superduperdb.base.config.ModelServer --* superduperdb.base.config.Config : model_server
+superduperdb.base.config.Notebook --* superduperdb.base.config.Config : notebook
+superduperdb.base.config.Retry --* superduperdb.base.config.Apis : retry
+superduperdb.base.config.Retry --* superduperdb.misc.retry.Retry : cfg
+superduperdb.base.config.Server --* superduperdb.base.config.Config : server
+superduperdb.base.config.VectorSearch --* superduperdb.base.config.Config : vector_search
+superduperdb.container.artifact.Artifact --* superduperdb.ext.torch.model.TorchTrainerConfiguration : optimizer_cls
+superduperdb.container.artifact.Artifact --* superduperdb.ext.transformers.model.Pipeline : object
+superduperdb.container.artifact.Artifact --* superduperdb.ext.transformers.model.Pipeline : collate_fn
+superduperdb.container.document.Document --* superduperdb.db.mongodb.query.PostLike : r
+superduperdb.container.document.Document --* superduperdb.db.mongodb.query.PreLike : r
+superduperdb.container.document.Document --* superduperdb.db.mongodb.query.ReplaceOne : update
+superduperdb.container.document.Document --* superduperdb.db.mongodb.query.UpdateMany : update
+superduperdb.container.document.Document --* superduperdb.db.mongodb.query.UpdateOne : update
+superduperdb.container.encoder.Encoder --* superduperdb.ext.openai.model.OpenAIEmbedding : encoder
+superduperdb.container.serializable.Serializable --* superduperdb.db.mongodb.cdc.Packet : query
+superduperdb.db.base.db.DB --* superduperdb.container.task_workflow.TaskWorkflow : database
+superduperdb.db.base.db.DB --* superduperdb.db.base.db.LoadDict : database
+superduperdb.db.base.db.DB --* superduperdb.db.query_dataset.CachedQueryDataset : _database
+superduperdb.db.base.db.DB --* superduperdb.db.query_dataset.QueryDataset : _database
+superduperdb.db.base.db.LoadDict --* superduperdb.db.base.db.DB : metrics
+superduperdb.db.base.db.LoadDict --* superduperdb.db.base.db.DB : models
+superduperdb.db.base.db.LoadDict --* superduperdb.db.base.db.DB : encoders
+superduperdb.db.base.db.LoadDict --* superduperdb.db.base.db.DB : vector_indices
+superduperdb.db.base.download.Fetcher --* superduperdb.db.base.download.Downloader : fetcher
+superduperdb.db.base.download.Fetcher --* superduperdb.db.base.download.InMemoryDownloader : fetcher
+superduperdb.db.base.query.Select --* superduperdb.db.base.data_backend.BaseDataBackend : select_cls
+superduperdb.db.mongodb.cdc.CDCHandler --* superduperdb.db.mongodb.cdc.MongoDatabaseListener : _cdc_change_handler
+superduperdb.db.mongodb.cdc.CachedTokens --* superduperdb.db.mongodb.cdc.MongoDatabaseListener : tokens
+superduperdb.db.mongodb.query.Collection --* superduperdb.db.mongodb.query.Aggregate : collection
+superduperdb.db.mongodb.query.Collection --* superduperdb.db.mongodb.query.ChangeStream : collection
+superduperdb.db.mongodb.query.Collection --* superduperdb.db.mongodb.query.DeleteMany : collection
+superduperdb.db.mongodb.query.Collection --* superduperdb.db.mongodb.query.DeleteOne : collection
+superduperdb.db.mongodb.query.Collection --* superduperdb.db.mongodb.query.InsertMany : collection
+superduperdb.db.mongodb.query.Collection --* superduperdb.db.mongodb.query.PreLike : collection
+superduperdb.db.mongodb.query.Collection --* superduperdb.db.mongodb.query.ReplaceOne : collection
+superduperdb.db.mongodb.query.Collection --* superduperdb.db.mongodb.query.UpdateMany : collection
+superduperdb.db.mongodb.query.Collection --* superduperdb.db.mongodb.query.UpdateOne : collection
+superduperdb.db.query_dataset.ExpiryCache --* superduperdb.db.query_dataset.CachedQueryDataset : _cache
+superduperdb.db.query_dataset.ExpiryCache --* superduperdb.db.query_dataset.CachedQueryDataset : _cache
+superduperdb.server.client.Client --* superduperdb.server.client.LoadDict : client
+superduperdb.server.client.LoadDict --* superduperdb.server.client.Client : encoders
+superduperdb.vector_search.lancedb_client.LanceDBClient --* superduperdb.vector_search.lancedb_client.LanceVectorIndex : client
+superduperdb.vector_search.table_scan.VanillaVectorIndex --* superduperdb.vector_search.inmemory.InMemoryVectorCollection : _index
+superduperdb.db.base.artifact.ArtifactStore --o superduperdb.db.base.db.DB : artifact_store
+superduperdb.db.base.data_backend.BaseDataBackend --o superduperdb.db.base.db.DB : databackend
+superduperdb.db.base.db.DB --o superduperdb.db.mongodb.cdc.CDCHandler : db
+superduperdb.db.base.db.DB --o superduperdb.db.mongodb.cdc.MongoDatabaseListener : db
+superduperdb.db.base.metadata.MetaDataStore --o superduperdb.db.base.db.DB : metadata
+superduperdb.db.mongodb.cdc.BaseDatabaseListener --o superduperdb.db.mongodb.cdc._DatabaseListenerThreadScheduler : listener
+superduperdb.db.mongodb.query.Collection --o superduperdb.db.mongodb.cdc.MongoDatabaseListener : _on_component
+threading.Thread --o superduperdb.db.mongodb.cdc.MongoDatabaseListener : _scheduler
+@enduml
