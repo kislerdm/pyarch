@@ -11,11 +11,14 @@ Usage example:
 
 cd superduperdb
 pyreverse -Akmy -o puml .
-./main.py --classes classes.puml --packages packages.puml --output index.html
+./pyarch.py --output index.html --input .
 """
 import argparse
 import dataclasses
 import json
+import logging
+import os.path
+import sys
 from typing import List, Dict
 
 
@@ -387,37 +390,84 @@ Ref:
 Usage example:
 
 cd superduperdb
-pyreverse -Akmy --colorized --max-color-depth 10 -o puml .
-./main.py --classes classes.puml --packages packages.puml --output index.html""")
-    parser.add_argument("-p", "--packages", required=True, help="Path to packages.puml file.")
-    parser.add_argument("-c", "--classes", required=True, help="Path to classess.puml file.")
-    parser.add_argument("-o", "--output", required=True, help="Path to output html file.")
+pyreverse -Akmy -o puml .
+./pyarch.py --input . --output index.html""")
+    parser.add_argument("-i", "--input", required=True, type=str, help="Directory with {classes,packages}.puml files.")
+    parser.add_argument("-o", "--output", required=True, type=str, help="Directory to output index.html file.")
+    parser.add_argument("-v", "--verbose", required=False, type=bool, default=False, help="Verbosity.")
     return parser.parse_args()
 
 
+_LOGS = logging.getLogger(__name__)
+
+
+def read_input_puml(path: str) -> str:
+    """ Reads input file.
+
+    Args:
+        path: Path to file.
+
+    Returns:
+        File content.
+
+    Raises:
+        FileNotFoundError: raised when the file is not found.
+        IOError: raised upon reading error.
+    """
+    if not os.path.isfile(path_classes_puml):
+        raise FileNotFoundError(path_classes_puml)
+
+    try:
+        with open(path, "r") as f:
+            return f.read()
+    except Exception as ex:
+        raise IOError(ex) from ex
+
+
 if __name__ == "__main__":
-    # args = get_args()
-    class Args:
-        packages: str = ""
-        classes: str = ""
-        output: str = ""
 
+    args = get_args()
 
-    args = Args()
+    path_classes_puml = f"{args.input}/classes.puml"
+    path_packages_puml = f"{args.input}/packages.puml"
+    path_output = f"{args.output}/index.html"
 
-    args.packages = "/Users/dkisler/projects/python-pkg-architecture/packages.puml"
-    args.classes = "/Users/dkisler/projects/python-pkg-architecture/classes.puml"
-    args.output = "/Users/dkisler/projects/python-pkg-architecture/index.html"
+    puml_packages: str = ""
+    puml_classes: str = ""
 
-    with open(args.packages, "r") as fin:
-        puml_packages = fin.read()
+    if args.verbose:
+        _LOGS.info("reading %s" % path_classes_puml)
+    try:
+        puml_classes = read_input_puml(path_classes_puml)
+    except FileNotFoundError as ex:
+        _LOGS.warning(ex)
+    except IOError as ex:
+        _LOGS.error(ex)
+        sys.exit(1)
 
-    with open(args.classes, "r") as fin:
-        puml_classes = fin.read()
+    if args.verbose:
+        _LOGS.info("reading %s" % path_packages_puml)
+    try:
+        puml_packages = read_input_puml(path_packages_puml)
+    except FileNotFoundError as ex:
+        _LOGS.warning(ex)
+    except IOError as ex:
+        _LOGS.error(ex)
+        sys.exit(1)
+
+    if puml_classes == "" and puml_packages == "":
+        _LOGS.error("no required inputs found")
+        sys.exit(1)
+
+    if args.verbose:
+        _LOGS.info("generating HTML")
 
     html = main(puml_packages=puml_packages, puml_classes=puml_classes)
 
-    with open(args.output, "w") as fout:
+    if args.verbose:
+        _LOGS.info("writing %s" % path_output)
+
+    with open(path_output, "w") as fout:
         fout.write(html)
 
 
