@@ -41,4 +41,4 @@ jobs:
       - name: e2e test
         run: |
           python pyarch.py -i fixtures -o fixtures
-          if [ $(cat fixtures/index.html | wc -l) -lt 150 ]; then echo "faulty html generated" && exit 1; fi 
+          if [ $(cat fixtures/index.html | wc -l) -lt 150 ]; then echo "faulty html generated" && exit 1; fi

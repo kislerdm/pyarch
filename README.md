@@ -1,16 +1,18 @@
-# python-pkg-architecture
+# pyarch
 
 The tool to visualise architecture of the python package.
 
 **The objective**: to facilitate understanding of the architecture of virtually any python package.
 
-**The motivation**: 
+**The motivation**:
+
 1. Context load reduction when learning the structure of the python package.
 2. Package architecture bottlenecks identification through inter-modules dependencies analysis.
 
-## How to use
+## Demo
 
-TBD
+- [SuperDuperDB](/superduperdb): the solution to bring AI to your database,
+  see [details](https://github.com/SuperDuperDB/superduperdb).
 
 ## Distribution and contribution
 
