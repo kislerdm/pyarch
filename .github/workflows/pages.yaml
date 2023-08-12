@@ -37,8 +37,8 @@ jobs:
 
       - name: Generate HTML
         run: |
-          if [ ! -d public ]; mkdir public; fi
-          if [ ! -d public/superduperdb ]; mkdir public/superduperdb; fi
+          if [ ! -d public ]; then mkdir public; fi
+          if [ ! -d public/superduperdb ]; then mkdir public/superduperdb; fi
           pyreverse -Akmy -o puml superduperdb/superduperdb
           python pyarch.py -i superduperdb/superduperdb -o public/superduperdb
 
