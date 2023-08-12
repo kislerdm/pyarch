@@ -11,7 +11,7 @@ The tool to visualise architecture of the python package.
 
 ## Demo
 
-- [SuperDuperDB](/superduperdb): the solution to bring AI to your database,
+- [SuperDuperDB](https://www.dkisler.com/pyarch/superduperdb): the solution to bring AI to your database,
   see [details](https://github.com/SuperDuperDB/superduperdb).
 
 ## Distribution and contribution
