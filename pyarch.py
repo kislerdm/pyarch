@@ -19,7 +19,7 @@ import json
 import logging
 import os.path
 import sys
-from typing import List, Dict
+from typing import Dict, List
 
 
 class Link:
@@ -37,11 +37,13 @@ class Link:
         if len(o) == 5:
             self.description = o[4]
 
-    def __eq__(self, other: "Link") -> bool:
-        return self.start == other.start \
-            and self.end == other.end \
-            and self.arrow == other.arrow \
+    def __eq__(self, other: "Link") -> bool:  # type: ignore
+        return (
+            self.start == other.start
+            and self.end == other.end
+            and self.arrow == other.arrow
             and self.description == other.description
+        )
 
     def to_dict(self) -> Dict[str, str]:
         return {
@@ -94,7 +96,7 @@ class Node:
 
     @staticmethod
     def from_str(id: str) -> "Node":
-        """ Creates a new Node object given its id.
+        """Creates a new Node object given its id.
 
         Args:
             id: Node's id string.
@@ -113,7 +115,7 @@ class Node:
 
         return node
 
-    def __eq__(self, other: "Node") -> bool:
+    def __eq__(self, other: "Node") -> bool:  # type: ignore
         flag = self.id == other.id and self.name == self.name and len(self.nodes) == len(other.nodes)
         if not flag:
             return False
@@ -149,7 +151,7 @@ def _is_relation(el: str) -> bool:
 
 
 def generate_html(nodes: Nodes, links: Links) -> str:
-    """ Generates HTML file.
+    """Generates HTML file.
 
     Args:
         nodes: Nodes object to generate diagrams.
@@ -350,13 +352,11 @@ def generate_html(nodes: Nodes, links: Links) -> str:
 </body>
 </html>
 """
-    return template \
-        .replace("{{.Nodes}}", nodes.to_json()) \
-        .replace("{{.Links}}", links.to_json())
+    return template.replace("{{.Nodes}}", nodes.to_json()).replace("{{.Links}}", links.to_json())
 
 
 def main(puml_packages: str, puml_classes: str) -> str:
-    """ Main runner.
+    """Main runner.
 
     Args:
         puml_packages: PUML DSL definition packages relations.
@@ -380,8 +380,10 @@ def main(puml_packages: str, puml_classes: str) -> str:
 
 
 def get_args() -> argparse.Namespace:
-    """ Parses stdin arguments. """
-    parser = argparse.ArgumentParser(prog="pyarch", usage="""pyarch: generates HTML with dynamic classDiagram based on the pyreverse PUML DSL.
+    """Parses stdin arguments."""
+    parser = argparse.ArgumentParser(
+        prog="pyarch",
+        usage="""pyarch: generates HTML with dynamic classDiagram based on the pyreverse PUML DSL.
 
 Ref:
 - https://www.bhavaniravi.com/python/generate-uml-diagrams-from-python-code
@@ -391,7 +393,8 @@ Usage example:
 
 cd superduperdb
 pyreverse -Akmy -o puml .
-./pyarch.py --input . --output index.html""")
+./pyarch.py --input . --output index.html""",
+    )
     parser.add_argument("-i", "--input", required=True, type=str, help="Directory with {classes,packages}.puml files.")
     parser.add_argument("-o", "--output", required=True, type=str, help="Directory to output index.html file.")
     parser.add_argument("-v", "--verbose", required=False, type=bool, default=False, help="Verbosity.")
@@ -402,7 +405,7 @@ _LOGS = logging.getLogger(__name__)
 
 
 def read_input_puml(path: str) -> str:
-    """ Reads input file.
+    """Reads input file.
 
     Args:
         path: Path to file.
@@ -475,13 +478,31 @@ def test_Node_from_str():
     tests = [
         {
             "input": "superduperdb.container.artifact.Artifact",
-            "want": Node("superduperdb", "superduperdb", Nodes([
-                Node("superduperdb.container", "container", Nodes([
-                    Node("superduperdb.container.artifact", "artifact", Nodes([
-                        Node("superduperdb.container.artifact.Artifact", "Artifact", Nodes([])),
-                    ])),
-                ])),
-            ])),
+            "want": Node(
+                "superduperdb",
+                "superduperdb",
+                Nodes(
+                    [
+                        Node(
+                            "superduperdb.container",
+                            "container",
+                            Nodes(
+                                [
+                                    Node(
+                                        "superduperdb.container.artifact",
+                                        "artifact",
+                                        Nodes(
+                                            [
+                                                Node("superduperdb.container.artifact.Artifact", "Artifact", Nodes([])),
+                                            ]
+                                        ),
+                                    ),
+                                ]
+                            ),
+                        ),
+                    ]
+                ),
+            ),
         },
         {
             "input": "superduperdb",
@@ -493,11 +514,35 @@ def test_Node_from_str():
         },
         {
             "input": "foo.bar.",
-            "want": Node("foo", "foo", Nodes([Node("foo.bar", "bar", Nodes([Node("foo.bar.", "", Nodes([])), ])), ])),
+            "want": Node(
+                "foo",
+                "foo",
+                Nodes(
+                    [
+                        Node(
+                            "foo.bar",
+                            "bar",
+                            Nodes(
+                                [
+                                    Node("foo.bar.", "", Nodes([])),
+                                ]
+                            ),
+                        ),
+                    ]
+                ),
+            ),
         },
         {
             "input": ".",
-            "want": Node("", "", Nodes([Node(".", "", Nodes([])), ])),
+            "want": Node(
+                "",
+                "",
+                Nodes(
+                    [
+                        Node(".", "", Nodes([])),
+                    ]
+                ),
+            ),
         },
     ]
     for test in tests:
@@ -506,21 +551,32 @@ def test_Node_from_str():
 
 def test_Nodes_to_json():
     tests = [
+        {"input": Nodes([Node("foo", "foo", Nodes([]))]), "want": """[{"id": "foo", "name": "foo", "nodes": []}]"""},
         {
-            "input": Nodes([Node("foo", "foo", Nodes([]))]),
-            "want": """[{"id": "foo", "name": "foo", "nodes": []}]"""
-        },
-        {
-            "input": Nodes([
-                Node("foo", "foo", Nodes([
-                    Node("foo.bar", "bar", Nodes([
-                        Node("foo.bar.qux", "qux", Nodes([])),
-                        Node("foo.bar.quxx", "quxx", Nodes([])),
-                    ])),
-                    Node("foo.baz", "baz", Nodes([])),
-                ]))
-            ]),
-            "want": """[{"id": "foo", "name": "foo", "nodes": [{"id": "foo.bar", "name": "bar", "nodes": [{"id": "foo.bar.qux", "name": "qux", "nodes": []}, {"id": "foo.bar.quxx", "name": "quxx", "nodes": []}]}, {"id": "foo.baz", "name": "baz", "nodes": []}]}]"""
+            "input": Nodes(
+                [
+                    Node(
+                        "foo",
+                        "foo",
+                        Nodes(
+                            [
+                                Node(
+                                    "foo.bar",
+                                    "bar",
+                                    Nodes(
+                                        [
+                                            Node("foo.bar.qux", "qux", Nodes([])),
+                                            Node("foo.bar.quxx", "quxx", Nodes([])),
+                                        ]
+                                    ),
+                                ),
+                                Node("foo.baz", "baz", Nodes([])),
+                            ]
+                        ),
+                    )
+                ]
+            ),
+            "want": """[{"id": "foo", "name": "foo", "nodes": [{"id": "foo.bar", "name": "bar", "nodes": [{"id": "foo.bar.qux", "name": "qux", "nodes": []}, {"id": "foo.bar.quxx", "name": "quxx", "nodes": []}]}, {"id": "foo.baz", "name": "baz", "nodes": []}]}]""",
         },
     ]
     for test in tests:
@@ -532,9 +588,7 @@ def test_Nodes_add():
         {
             "given": Nodes([Node("foo", "foo", Nodes([]))]),
             "input": [
-                Node("foo", "foo", Nodes([
-                    Node("foo.bar", "foo", Nodes([]))
-                ])),
+                Node("foo", "foo", Nodes([Node("foo.bar", "foo", Nodes([]))])),
             ],
             "want": Nodes([Node("foo", "foo", Nodes([Node("foo.bar", "foo", Nodes([]))]))]),
         },
@@ -549,38 +603,60 @@ def test_Nodes_add():
                 Node.from_str("superduperdb.base.config.Notebook"),
                 Node.from_str("superduperdb.data.cache.key_cache"),
             ],
-            "want": Nodes([
-                Node(id="superduperdb", name="superduperdb",
-                     nodes=Nodes([
-                         Node(id="superduperdb.base",
-                              name="base",
-                              nodes=Nodes([
-                                  Node(id="superduperdb.base.config",
-                                       name="config",
-                                       nodes=Nodes([
-                                           Node(id="superduperdb.base.config.Notebook",
-                                                name="Notebook",
-                                                nodes=Nodes([])
+            "want": Nodes(
+                [
+                    Node(
+                        id="superduperdb",
+                        name="superduperdb",
+                        nodes=Nodes(
+                            [
+                                Node(
+                                    id="superduperdb.base",
+                                    name="base",
+                                    nodes=Nodes(
+                                        [
+                                            Node(
+                                                id="superduperdb.base.config",
+                                                name="config",
+                                                nodes=Nodes(
+                                                    [
+                                                        Node(
+                                                            id="superduperdb.base.config.Notebook",
+                                                            name="Notebook",
+                                                            nodes=Nodes([]),
+                                                        ),
+                                                    ]
                                                 ),
-                                       ])),
-                              ])
-                              ),
-                         Node(id="superduperdb.data",
-                              name="data",
-                              nodes=Nodes([
-                                  Node(id="superduperdb.data.cache",
-                                       name="cache",
-                                       nodes=Nodes([
-                                           Node(id="superduperdb.data.cache.key_cache",
-                                                name="key_cache",
-                                                nodes=Nodes([])),
-                                       ])
-                                       ),
-                              ])
-                              ),
-                     ])
-                     ),
-            ]),
+                                            ),
+                                        ]
+                                    ),
+                                ),
+                                Node(
+                                    id="superduperdb.data",
+                                    name="data",
+                                    nodes=Nodes(
+                                        [
+                                            Node(
+                                                id="superduperdb.data.cache",
+                                                name="cache",
+                                                nodes=Nodes(
+                                                    [
+                                                        Node(
+                                                            id="superduperdb.data.cache.key_cache",
+                                                            name="key_cache",
+                                                            nodes=Nodes([]),
+                                                        ),
+                                                    ]
+                                                ),
+                                            ),
+                                        ]
+                                    ),
+                                ),
+                            ]
+                        ),
+                    ),
+                ]
+            ),
         },
     ]
     for test in tests:
@@ -607,13 +683,23 @@ def test_Node_parent_id():
 def test_Links_to_json():
     tests = [
         {
-            "input": Links([Link(
-                "superduperdb.container.artifact.Artifact --* superduperdb.ext.torch.model.TorchTrainerConfiguration : optimizer_cls")]),
+            "input": Links(
+                [
+                    Link(
+                        "superduperdb.container.artifact.Artifact --* superduperdb.ext.torch.model.TorchTrainerConfiguration : optimizer_cls"
+                    )
+                ]
+            ),
             "want": """[{"start": "superduperdb.container.artifact.Artifact", "end": "superduperdb.ext.torch.model.TorchTrainerConfiguration", "arrow": "--*", "description": "optimizer_cls"}]""",
         },
         {
-            "input": Links([Link(
-                "superduperdb.container.artifact.Artifact --* superduperdb.ext.torch.model.TorchTrainerConfiguration")]),
+            "input": Links(
+                [
+                    Link(
+                        "superduperdb.container.artifact.Artifact --* superduperdb.ext.torch.model.TorchTrainerConfiguration"
+                    )
+                ]
+            ),
             "want": """[{"start": "superduperdb.container.artifact.Artifact", "end": "superduperdb.ext.torch.model.TorchTrainerConfiguration", "arrow": "--*", "description": ""}]""",
         },
     ]
@@ -624,14 +710,16 @@ def test_Links_to_json():
 def test_Links_deduplicate():
     tests = [
         {
-            "input": Links([
-                Link("foo --* bar : qux"),
-                Link("foo --* bar : quxx"),
-                Link("foo --* bar : qux"),
-                Link("foo --* bar : quxx"),
-                Link("foo --* bar : quxx1"),
-                Link("foo --* bar : quxx"),
-            ]),
+            "input": Links(
+                [
+                    Link("foo --* bar : qux"),
+                    Link("foo --* bar : quxx"),
+                    Link("foo --* bar : qux"),
+                    Link("foo --* bar : quxx"),
+                    Link("foo --* bar : quxx1"),
+                    Link("foo --* bar : quxx"),
+                ]
+            ),
             "want": 3,
         }
     ]
