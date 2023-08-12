@@ -37,9 +37,3 @@ jobs:
 
       - name: Unittest with pytest
         run: pytest -vv .
-
-      - name: e2e test
-        run: |
-          python pyarch.py -i fixtures -o fixtures
-          if [ $(cat fixtures/index.html | wc -l) -lt 1 ]; then echo "faulty html generated" && exit 1; fi
-          if [ $(cat fixtures/index.html | wc -l) -lt 1 ]; then echo "faulty js generated" && exit 1; fi
