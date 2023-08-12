@@ -1,0 +1,53 @@
+name: "Pages"
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  pages:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pylint
+
+      - name: Download package for analysis
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          repository: superDuperDB/superduperdb
+          path: superduperdb
+
+      - name: Generate HTML
+        run: |
+          if [ ! -d public ]; mkdir public; fi
+          if [ ! -d public/superduperdb ]; mkdir public/superduperdb; fi
+          pyreverse -Akmy -o puml superduperdb/superduperdb
+          python pyarch.py -i superduperdb/superduperdb -o public/superduperdb
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: 'public'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2

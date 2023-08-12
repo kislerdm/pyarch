@@ -1,0 +1,36 @@
+name: "Test"
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - "*.py"
+  pull_request:
+    branches:
+      - master
+    paths:
+      - "*.py"
+  workflow_dispatch:
+
+jobs:
+  tests:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest
+      - name: Unittest with pytest
+        run: pytest -vv pyarch.py
+      - name: e2e test
+        run: |
+          python pyarch.py -i fixtures -o fixtures
+          if [ $(cat fixtures/index.html | wc -l) -lt 150 ]; then echo "faulty html generated" && exit 1; fi 
