@@ -59,8 +59,8 @@ class Links(List[Link]):
         return json.dumps([el.to_dict() for el in self])
 
     def deduplicate(self) -> "Links":
-        if len(self) == 0:
-            return Links([])
+        if len(self) < 2:
+            return self
 
         o = [self[0]]
 
@@ -71,19 +71,11 @@ class Links(List[Link]):
         return Links(o)
 
     def get_nodes(self) -> "Nodes":
-        ids = []  # type: ignore
+        ids = set()
         for link in self:
-            ids.append(link.start)
-            ids.append(link.end)
-
-        ids_set = set(ids)
-
-        o = Nodes()
-        for _id in ids_set:
-            node = Node.from_str(_id)
-            o.add(node)
-
-        return o
+            ids.add(link.start)
+            ids.add(link.end)
+        return Nodes([Node.from_str(_id) for _id in ids])
 
 
 @dataclasses.dataclass
