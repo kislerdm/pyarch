@@ -33,7 +33,7 @@ jobs:
         run: |
           isort pyarch.py
           mypy pyarch.py
-          black -l 120 pyarch.py
+          black -l 120 --check pyarch.py
 
       - name: Unittest with pytest
         run: pytest -vv .
