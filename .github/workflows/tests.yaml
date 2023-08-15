@@ -5,11 +5,13 @@ on:
     branches:
       - master
     paths:
+      - "pyarch"
       - "*.py"
   pull_request:
     branches:
       - master
     paths:
+      - "pyarch"
       - "*.py"
   workflow_dispatch:
 
@@ -31,9 +33,9 @@ jobs:
 
       - name: Lint
         run: |
-          isort pyarch.py
-          mypy pyarch.py
-          black -l 120 pyarch.py
+          isort pyarch
+          mypy pyarch
+          black -l 120 pyarch
 
       - name: Unittest with pytest
         run: pytest -vv .
