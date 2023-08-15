@@ -24,7 +24,7 @@ facilitate their development and maintenance.
 **Steps**
 
 1. Download the latest release of the python script
-2. Move it to the bin directory `/url/local/bin`
+2. Move it to the bin directory `/usr/local/bin`
 3. Run the script to validate the version:
 
 ```commandline
@@ -42,7 +42,7 @@ python3 pyarch --version
 _Note_ [curl](https://curl.se/) is required.
 
 ```commandline
-sudo curl -SLo https://github.com/kislerdm/pyarch/releases/download/v0.0.1/pyarch /url/local/bin/pyarch &&\
+sudo curl -SLo /usr/local/bin/pyarch https://github.com/kislerdm/pyarch/releases/download/v0.0.1/pyarch &&\
 pyarch --version
 ```
 
