@@ -19,28 +19,28 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.9"
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install pylint
-
-      - name: Download package for analysis
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-          repository: superDuperDB/superduperdb
-          path: superduperdb
-
-      - name: Generate HTML
-        run: |
-          if [ ! -d public ]; then mkdir public; fi
-          if [ ! -d public/superduperdb ]; then mkdir public/superduperdb; fi
-          pyreverse -Akmy -o puml -d superduperdb/superduperdb superduperdb/superduperdb
-          python pyarch.py -i superduperdb/superduperdb -o public/superduperdb -v --title="SuperDuperDB architecture" --header="SuperDuperDB architecture"
+#      - name: Set up Python
+#        uses: actions/setup-python@v4
+#        with:
+#          python-version: "3.9"
+#      - name: Install dependencies
+#        run: |
+#          python -m pip install --upgrade pip
+#          pip install pylint
+#
+#      - name: Download package for analysis
+#        uses: actions/checkout@v3
+#        with:
+#          fetch-depth: 0
+#          repository: superDuperDB/superduperdb
+#          path: superduperdb
+#
+#      - name: Generate HTML
+#        run: |
+#          if [ ! -d public ]; then mkdir public; fi
+#          if [ ! -d public/superduperdb ]; then mkdir public/superduperdb; fi
+#          pyreverse -Akmy -o puml -d superduperdb/superduperdb --ignore=test,tests superduperdb/superduperdb
+#          python pyarch.py -i superduperdb/superduperdb -o public/superduperdb -v --title="SuperDuperDB architecture" --header="SuperDuperDB architecture"
 
       - name: Setup Pages
         uses: actions/configure-pages@v3
