@@ -42,10 +42,10 @@ class Link:
 
     def __eq__(self, other: "Link") -> bool:  # type: ignore
         return (
-                self.start == other.start
-                and self.end == other.end
-                and self.arrow == other.arrow
-                and self.description == other.description
+            self.start == other.start
+            and self.end == other.end
+            and self.arrow == other.arrow
+            and self.description == other.description
         )
 
     def to_dict(self) -> Dict[str, str]:
@@ -236,7 +236,10 @@ pyreverse -Akmy -o puml .
         "--header", required=False, type=str, default=WebpageConfig.header, help="Custom header string."
     )
     parser.add_argument(
-        "--footer", required=False, type=str, default=WebpageConfig.footer,
+        "--footer",
+        required=False,
+        type=str,
+        default=WebpageConfig.footer,
         help="Custom footer as HTML encoded string.",
     )
     return parser.parse_args()
@@ -270,7 +273,7 @@ def read_input_puml(path: str) -> str:
 
 
 def print_version():
-    """ Prints version to stdout. """
+    """Prints version to stdout."""
     __version__ = "0.0.1"
     print("version: %s" % __version__)
     exit(0)
