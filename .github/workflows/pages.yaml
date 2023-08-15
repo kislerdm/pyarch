@@ -40,7 +40,7 @@ jobs:
           if [ ! -d public ]; then mkdir public; fi
           if [ ! -d public/superduperdb ]; then mkdir public/superduperdb; fi
           pyreverse -Akmy -o puml -d superduperdb/superduperdb superduperdb/superduperdb
-          python pyarch.py -i superduperdb/superduperdb -o public/superduperdb -v
+          python pyarch.py -i superduperdb/superduperdb -o public/superduperdb -v --title="SuperDuperDB architecture" --header="SuperDuperDB architecture"
 
       - name: Setup Pages
         uses: actions/configure-pages@v3
