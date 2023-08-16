@@ -1,0 +1,61 @@
+name: 'pyarch'
+description: 'Generate dynamic UML diagrams of python package as a single HTML'
+inputs:
+  input:
+    description: 'Directory with the package source code'
+    required: true
+  output:
+    description: 'Directory to save generated HTML file'
+    required: false
+    default: '.pyarch/output'
+  title:
+    description: 'Custom HTML title'
+    required: false
+    default: 'Python package architecture'
+  header:
+    description: 'Custom HTML header'
+    required: false
+    default: 'Python package architecture'
+  footer:
+    description: 'Custom HTML footer'
+    required: false
+    default: '<p style="font-size:15px">Built with ❤️ by <a href=https://www.dkisler.com target=_blank>Dmitry Kisler - dkisler.com</a></p>'
+
+outputs:
+  output:
+    description: 'Path to output file'
+    value: ${{ steps.generate-html.outputs.path }}
+
+runs:
+  using: "composite"
+  steps:
+    - shell: bash
+      run: |
+        if [ ! -d .pyarch/output ]; then mkdir -p .pyarch/output; fi
+        curl -SLo .pyarch/pyarch https://github.com/kislerdm/pyarch/releases/download/v0.0.2/pyarch
+
+    - uses: actions/setup-python@v4
+      with:
+        python-version: "3.9"
+
+    - shell: bash
+      run: |
+        python -m pip install --upgrade pip
+        pip install pylint
+
+    - id: generate-uml
+      shell: bash
+      run: |
+        if [ ! -d ${{ inputs.output }}/uml ]; then mkdir -p ${{ inputs.output }}/uml; fi
+        pyreverse -Akmy -o puml -d ${{ inputs.output }}/uml --ignore=test,tests ${{ inputs.input }}
+
+    - id: generate-html
+      shell: bash
+      run: |
+        python .pyarch/pyarch --output ${{ inputs.output }} --input ${{ inputs.output }}/uml \
+          --title ${{ inputs.title }} \
+          --header ${{ inputs.header }} \
+          --footer ${{ inputs.footer }} \
+          -v
+        rm -r ${{ inputs.output }}/uml
+        echo "output=$(echo ${{ inputs.output }}/index.html)" >> $GITHUB_OUTPUT
