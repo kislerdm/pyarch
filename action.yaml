@@ -19,12 +19,12 @@ inputs:
   footer:
     description: 'Custom HTML footer'
     required: false
-    default: '"<p style="font-size:15px">Built with ❤️ by <a href="https://www.dkisler.com" target=_blank>Dmitry Kisler - dkisler.com</a></p>"'
+    default: '<p style="font-size:15px">Built with ❤️ by <a href="https://www.dkisler.com" target=_blank>Dmitry Kisler - dkisler.com</a></p>'
 
 outputs:
   output:
     description: 'Path to output file'
-    value: ${{ steps.generate-html.outputs.path }}
+    value: ${{ steps.generate-html.outputs.output }}
 
 runs:
   using: "composite"
@@ -52,6 +52,6 @@ runs:
     - id: generate-html
       shell: bash
       run: |
-        python .pyarch/pyarch -v --output ${{ inputs.output }} --input ${{ inputs.output }}/uml --title ${{ inputs.title }} --header ${{ inputs.header }} --footer ${{ inputs.footer }}
+        python .pyarch/pyarch -v --output ${{ inputs.output }} --input ${{ inputs.output }}/uml --title "${{ inputs.title }}" --header "${{ inputs.header }}" --footer "${{ inputs.footer }}"
         rm -r ${{ inputs.output }}/uml
         echo "output=$(echo ${{ inputs.output }}/index.html)" >> $GITHUB_OUTPUT
