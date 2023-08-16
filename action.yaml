@@ -32,7 +32,7 @@ runs:
     - shell: bash
       run: |
         if [ ! -d .pyarch/output ]; then mkdir -p .pyarch/output; fi
-        curl -SLo .pyarch/pyarch https://github.com/kislerdm/pyarch/releases/download/v0.0.1/pyarch
+        curl -SLo .pyarch/pyarch https://github.com/kislerdm/pyarch/releases/download/v0.0.2/pyarch
 
     - uses: actions/setup-python@v4
       with:
