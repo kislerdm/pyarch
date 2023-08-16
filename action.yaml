@@ -57,5 +57,5 @@ runs:
         echo "output=$(echo ${{ inputs.output }}/index.html)" >> $GITHUB_OUTPUT
 
 branding:
-  icon: arrow-up-circle
-  color: green
+  icon: 'arrow-up-circle'
+  color: 'green'
