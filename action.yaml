@@ -1,4 +1,4 @@
-name: 'pyarch'
+name: 'pyarch-webpage'
 description: 'Generate dynamic UML diagrams of python package as a single HTML'
 inputs:
   input:

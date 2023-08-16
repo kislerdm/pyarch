@@ -63,7 +63,7 @@ jobs:
           fetch-depth: 0
 
       - name: Generate HTML
-        uses: kislerdm/pyarch@v0.0.2
+        uses: kislerdm/pyarch-webpage@v0.0.2
         with:
           # Change to the path with the package's source files
           input: src
