@@ -52,10 +52,6 @@ runs:
     - id: generate-html
       shell: bash
       run: |
-        python .pyarch/pyarch --output ${{ inputs.output }} --input ${{ inputs.output }}/uml \
-          --title ${{ inputs.title }} \
-          --header ${{ inputs.header }} \
-          --footer ${{ inputs.footer }} \
-          -v
+        python .pyarch/pyarch -v --output ${{ inputs.output }} --input ${{ inputs.output }}/uml --title ${{ inputs.title }} --header ${{ inputs.header }} --footer ${{ inputs.footer }}
         rm -r ${{ inputs.output }}/uml
         echo "output=$(echo ${{ inputs.output }}/index.html)" >> $GITHUB_OUTPUT
