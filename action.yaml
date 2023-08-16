@@ -19,7 +19,7 @@ inputs:
   footer:
     description: 'Custom HTML footer'
     required: false
-    default: `<p style="font-size:15px">Built with ❤️ by <a href=https://www.dkisler.com target=_blank>Dmitry Kisler - dkisler.com</a></p>`
+    default: '"<p style="font-size:15px">Built with ❤️ by <a href="https://www.dkisler.com" target=_blank>Dmitry Kisler - dkisler.com</a></p>"'
 
 outputs:
   output:
