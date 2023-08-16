@@ -1,3 +1,13 @@
+# [v0.0.2] - 2023-08-16
+
+## Added
+
+- GitHub action to generate the architecture diagrams
+
+### Chore
+
+- Updated CLI docstring: the pyreverse example excludes test files
+
 # [v0.0.1] - 2023-08-15
 
 Initial release 🎉

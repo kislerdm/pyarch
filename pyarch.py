@@ -225,7 +225,7 @@ Ref:
 Usage example:
 
 cd superduperdb
-pyreverse -Akmy -o puml .
+pyreverse -Akmy -o puml . --ignore=test,tests
 ./pyarch.py --input . --output index.html""",
     )
     parser.add_argument("-i", "--input", required=True, type=str, help="Directory with {classes,packages}.puml files.")
@@ -274,7 +274,7 @@ def read_input_puml(path: str) -> str:
 
 def print_version():
     """Prints version to stdout."""
-    __version__ = "0.0.1"
+    __version__ = "0.0.2"
     print("version: %s" % __version__)
     exit(0)
 

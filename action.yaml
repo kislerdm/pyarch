@@ -23,7 +23,7 @@ inputs:
 
 outputs:
   output:
-    description: 'Path to output file'
+    description: 'Path to generated HTML file'
     value: ${{ steps.generate-html.outputs.output }}
 
 runs:
